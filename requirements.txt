@@ -1,0 +1,6 @@
+streamlit
+pandas
+google-auth
+python-dotenv
+gspread
+gspread-dataframe
