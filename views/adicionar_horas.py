@@ -7,7 +7,7 @@ if "base_alunos" not in st.session_state:
 
 alunos_df = st.session_state["base_alunos"]
 
-@st.dialog("Visualizar Horas do Aluno",width = "large")
+@st.dialog("Visualizar Horas do Aluno",width = "medium")
 def visualizar_horas_aluno(aluno: str):
     horas_df = get_sheet_data("base_de_horas")
     horas_aluno = horas_df.loc[horas_df["aluno"] == aluno]
@@ -23,6 +23,7 @@ def visualizar_horas_aluno(aluno: str):
     
     horas_aluno = horas_aluno.loc[filtro_periodo]
     horas_aluno["quantidade_de_horas"] = horas_aluno["quantidade_de_horas"].astype(float)
+    horas_aluno = horas_aluno.sort_values(by="data_da_aula",ascending=True)
     
     total_horas = horas_aluno["quantidade_de_horas"].sum()
     col2.metric("Total de horas no período:", f"{total_horas} horas")
@@ -50,7 +51,7 @@ else:
 
 st.title("Adicionar Horas")
 
-col1, col2 = st.columns(2)
+col1,col2,col3 = st.columns(3)
 
 professor = col1.selectbox("Selecione o professor:", ["Patricia","Ciro"],index=0)
 
@@ -63,7 +64,7 @@ data_aula = col1.date_input("Data da atividade:", value=date.today())
 quantidade_horas = col2.number_input("Quantidade de horas:", step=0.5)
 
 botao_adicionar_horas = col1.button("Adicionar horas")
-visualizar_aluno = col2.button("Visualizar horas do aluno")
+visualizar_aluno = col3.button("Visualizar horas do aluno")
 
 if botao_adicionar_horas:
     nova_linha = {
