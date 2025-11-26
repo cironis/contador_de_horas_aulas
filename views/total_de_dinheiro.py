@@ -2,7 +2,7 @@ import streamlit as st
 from datetime import date
 from auxiliar.google_sheets import get_sheet_data,append_sheet_data
 from auxiliar.download_as_image import df_to_image_bytes
-
+import pandas as pd
 
 password = st.secrets["PASSWORD"]
 password_parametro = st.query_params.get("password",None)
@@ -43,7 +43,8 @@ if autenticado:
 
     total_geral_horas = resumo_professor["quantidade_de_horas"].sum()
     total_geral_valor = resumo_professor["valor_total"].sum()
-    resumo_professor = resumo_professor.concat(pd.dataframe({
+
+    resumo_professor = resumo_professor.concat(pd.dataFrame({
                             "professor": "Total Geral",
                             "quantidade_de_horas": total_geral_horas,
                             "valor_total": total_geral_valor
