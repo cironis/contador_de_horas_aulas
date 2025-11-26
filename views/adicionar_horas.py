@@ -49,7 +49,7 @@ def visualizar_horas_aluno(aluno: str):
     st.subheader("Detalhamento das horas:")
     colunas = ["data_da_aula","quantidade_de_horas"]
     st.dataframe(horas_aluno[colunas],hide_index=True)
-    st.help("Link para o Google Sheets: https://docs.google.com/spreadsheets/d/133kYKvfehQQeJTQ86Z2IM3SmgIBNmd0ZQfhvPFgqFGY/")
+    st.caption("Link para o Google Sheets: https://docs.google.com/spreadsheets/d/133kYKvfehQQeJTQ86Z2IM3SmgIBNmd0ZQfhvPFgqFGY/")
 
 professor_parametro = st.query_params.get("professor",None)
 
