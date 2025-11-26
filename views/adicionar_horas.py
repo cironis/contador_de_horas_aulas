@@ -2,6 +2,10 @@ import streamlit as st
 from datetime import date
 from auxiliar.google_sheets import get_sheet_data,append_sheet_data
 
+
+password = st.secrets["PASSWORD"]
+password_parametro = st.query_params.get("password",None)
+
 if "base_alunos" not in st.session_state:
     st.session_state["base_alunos"] = get_sheet_data("base_alunos")
 
@@ -42,42 +46,44 @@ def visualizar_horas_aluno(aluno: str):
 
 professor_parametro = st.query_params.get("professor",None)
 
-if professor_parametro == "patricia":
-    index = 0
-else:
+if professor_parametro == "ciro":
     index = 1
+else:
+    index = 0
 
 
+if password == password_parametro[0]:
+    st.title("Adicionar Horas")
 
-st.title("Adicionar Horas")
+    col1,col2,col3 = st.columns(3)
 
-col1,col2,col3 = st.columns(3)
+    professor = col1.selectbox("Selecione o professor:", ["Patricia","Ciro"],index=index)
 
-professor = col1.selectbox("Selecione o professor:", ["Patricia","Ciro"],index=0)
+    alunos_filtrados = alunos_df.loc[alunos_df["professor"] == professor]
+    alunos = alunos_filtrados["aluno"].tolist()
 
-alunos_filtrados = alunos_df.loc[alunos_df["professor"] == professor]
-alunos = alunos_filtrados["aluno"].tolist()
+    aluno = col2.selectbox("Selecione o aluno:", alunos)
 
-aluno = col2.selectbox("Selecione o aluno:", alunos)
+    data_aula = col1.date_input("Data da atividade:", value=date.today())
+    quantidade_horas = col2.number_input("Quantidade de horas:", step=0.5)
 
-data_aula = col1.date_input("Data da atividade:", value=date.today())
-quantidade_horas = col2.number_input("Quantidade de horas:", step=0.5)
+    botao_adicionar_horas = col1.button("Adicionar horas")
+    visualizar_aluno = col3.button("Visualizar horas do aluno")
 
-botao_adicionar_horas = col1.button("Adicionar horas")
-visualizar_aluno = col3.button("Visualizar horas do aluno")
+    if botao_adicionar_horas:
+        nova_linha = {
+            "data_da_aula": data_aula.strftime("%Y-%m-%d"),
+            "quantidade_de_horas": quantidade_horas,
+            "aluno": aluno,
+            "professor": professor,
+            "data_atualizacao": date.today().strftime("%Y-%m-%d"),
+        }
+        
+        append_sheet_data("base_de_horas", [list(nova_linha.values())])
+        st.success(f"Foram adicionadas {quantidade_horas} horas para o aluno {aluno} do professor {professor}.")
+        st.balloons()
 
-if botao_adicionar_horas:
-    nova_linha = {
-        "data_da_aula": data_aula.strftime("%Y-%m-%d"),
-        "quantidade_de_horas": quantidade_horas,
-        "aluno": aluno,
-        "professor": professor,
-        "data_atualizacao": date.today().strftime("%Y-%m-%d"),
-    }
-    
-    append_sheet_data("base_de_horas", [list(nova_linha.values())])
-    st.success(f"Foram adicionadas {quantidade_horas} horas para o aluno {aluno} do professor {professor}.")
-    st.balloons()
-
-if visualizar_aluno:
-    visualizar_horas_aluno(aluno)
+    if visualizar_aluno:
+        visualizar_horas_aluno(aluno)
+else:
+    st.error("Senha incorreta. Acesso negado.")
