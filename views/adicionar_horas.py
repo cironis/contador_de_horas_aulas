@@ -61,7 +61,12 @@ def visualizar_horas_aluno(aluno: str):
 
     st.dataframe(relatorio_detalhado_df,hide_index=True)
 
-    titulo_da_tabela = f"Aulas para {aluno}\nPeríodo: {data_inicio.strftime('%d/%m/%Y')} a {data_fim.strftime('%d/%m/%Y')}"
+    titulo_da_tabela = (
+    f"Aluno: {aluno}\n"
+    f"Período: {data_inicio.strftime('%d/%m/%Y')} a {data_fim.strftime('%d/%m/%Y')}\n"
+    f"Total de horas: {total_horas} horas"
+    )
+    
     img_bytes = df_to_image_bytes(relatorio_detalhado_df,title=titulo_da_tabela)
 
     st.download_button(
