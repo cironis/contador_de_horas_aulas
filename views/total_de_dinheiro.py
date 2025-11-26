@@ -40,7 +40,16 @@ if autenticado:
     merged_df["valor_total"] = merged_df["quantidade_de_horas"] * merged_df["hora_aula"]
     resumo_professor = merged_df.groupby("professor")[["quantidade_de_horas","valor_total"]].sum().reset_index()
 
-    st.dataframe(resumo_professor,hide_index=True)
+    st.dataframe(
+        resumo_professor,
+        hide_index=True,
+        column_config={
+            "valor_total": st.column_config.NumberColumn(
+                "Valor total",
+                format="R$ %.2f",  # 2 casas decimais com R$
+            ),
+        },
+    )
 
 else:
     st.error("Senha incorreta. Acesso negado.")
