@@ -101,7 +101,7 @@ if autenticado:
     data_aula = col1.date_input("Data da atividade:", value=date.today())
     quantidade_horas = col2.number_input("Quantidade de horas:", step=0.5)
 
-    botao_adicionar_horas = col1.button("Adicionar horas")
+    botao_adicionar_horas = col1.button("Adicionar horas",type="primary")
     visualizar_aluno = st.button("Visualizar horas do aluno",type="secondary")
 
     if botao_adicionar_horas:
