@@ -27,7 +27,7 @@ if "base_de_horas" not in st.session_state:
 horas_df = st.session_state["base_de_horas"]
 
 if autenticado:
-    st.title("Visualizar total de dinheiro por professor")
+    st.title("Visualizar total")
 
     seletor_periodo = st.date_input("Selecione o período:", value=(date.today().replace(day=1),date.today()))
     data_inicio, data_fim = seletor_periodo
@@ -38,7 +38,16 @@ if autenticado:
     merged_df["quantidade_de_horas"] =merged_df["quantidade_de_horas"].astype(float)
     merged_df["hora_aula"] = merged_df["hora_aula"].astype(float)
     merged_df["valor_total"] = merged_df["quantidade_de_horas"] * merged_df["hora_aula"]
+
     resumo_professor = merged_df.groupby("professor")[["quantidade_de_horas","valor_total"]].sum().reset_index()
+
+    total_geral_horas = resumo_professor["quantidade_de_horas"].sum()
+    total_geral_valor = resumo_professor["valor_total"].sum()
+    resumo_professor = resumo_professor.append({
+                            "professor": "Total Geral",
+                            "quantidade_de_horas": total_geral_horas,
+                            "valor_total": total_geral_valor
+                        }, ignore_index=True)
 
     st.dataframe(
         resumo_professor,
