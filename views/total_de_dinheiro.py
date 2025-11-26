@@ -35,7 +35,9 @@ if autenticado:
     merged_df = horas_df.merge(alunos_df, on="aluno", how="left", suffixes=('','_aluno'))
     filtro_periodo = (merged_df["data_da_aula"] >= data_inicio.strftime("%Y-%m-%d")) & (merged_df["data_da_aula"] <= data_fim.strftime("%Y-%m-%d"))
     merged_df = merged_df.loc[filtro_periodo]
-    merged_df["valor_total"] = merged_df["quantidade_de_horas"].astype(float) * merged_df["hora_aula"].astype(float)
+    merged_df["quantidade_de_horas"] =merged_df["quantidade_de_horas"].astype(float)
+    merged_df["hora_aula"] = merged_df["hora_aula"].astype(float)
+    merged_df["valor_total"] = merged_df["quantidade_de_horas"] * merged_df["hora_aula"]
     resumo_professor = merged_df.groupby("professor")[["quantidade_de_horas","valor_total"]].sum().reset_index()
 
     st.dataframe(resumo_professor,hide_index=True)
