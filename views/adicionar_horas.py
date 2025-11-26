@@ -1,6 +1,7 @@
 import streamlit as st
 from datetime import date
 from auxiliar.google_sheets import get_sheet_data,append_sheet_data
+from auxiliar.download_as_image import df_to_image_bytes
 
 
 password = st.secrets["PASSWORD"]
@@ -21,11 +22,9 @@ alunos_df = st.session_state["base_alunos"]
 
 @st.dialog("Visualizar Horas do Aluno",width = "medium")
 def visualizar_horas_aluno(aluno: str):
+
     horas_df = get_sheet_data("base_de_horas")
     horas_aluno = horas_df.loc[horas_df["aluno"] == aluno]
-        
-    
-    
 
     seletor_periodo = st.date_input("Selecione o período:", value=(date.today().replace(day=1),date.today()))
     data_inicio, data_fim = seletor_periodo
@@ -43,7 +42,7 @@ def visualizar_horas_aluno(aluno: str):
     valor_aluno = float(valor_aluno)
 
     valor_total = total_horas * valor_aluno
-    
+
     st.subheader(f"Horas do aluno {aluno}:")
 
     col1,col2,col3= st.columns(3)
@@ -53,7 +52,18 @@ def visualizar_horas_aluno(aluno: str):
 
     st.subheader("Detalhamento das horas:")
     colunas = ["data_da_aula","quantidade_de_horas"]
-    st.dataframe(horas_aluno[colunas],hide_index=True)
+    relatorio_detalhado_df = horas_aluno[colunas]
+    st.dataframe(relatorio_detalhado_df,hide_index=True)
+
+    img_bytes = df_to_image_bytes(relatorio_detalhado_df)
+
+    st.download_button(
+        label="📥 Baixar tabela",
+        data=img_bytes,
+        file_name="tabela.png",
+        mime="image/png",
+    )
+
     st.caption("Link para edição no Google Sheets: https://docs.google.com/spreadsheets/d/133kYKvfehQQeJTQ86Z2IM3SmgIBNmd0ZQfhvPFgqFGY/")
 
 professor_parametro = st.query_params.get("professor",None)
