@@ -59,22 +59,29 @@ def visualizar_horas_aluno(aluno: str):
         "quantidade_de_horas": "Quantidade de Horas",
     })
 
-    st.dataframe(relatorio_detalhado_df,hide_index=True)
+    
+    if relatorio_detalhado_df.empty:
+        
+        st.info("Nenhum registro de horas encontrado para o aluno neste período.")
 
-    titulo_da_tabela = (
-    f"Aluno: {aluno}\n"
-    f"Período: {data_inicio.strftime('%d/%m/%Y')} a {data_fim.strftime('%d/%m/%Y')}\n"
-    f"Total de horas: {total_horas} horas"
-    )
+    else:
 
-    img_bytes = df_to_image_bytes(relatorio_detalhado_df,title=titulo_da_tabela)
+        titulo_da_tabela = (
+        f"Aluno: {aluno}\n"
+        f"Período: {data_inicio.strftime('%d/%m/%Y')} a {data_fim.strftime('%d/%m/%Y')}\n"
+        f"Total de horas: {total_horas} horas"
+        )
 
-    st.download_button(
-        label="Baixar tabela",
-        data=img_bytes,
-        file_name="tabela.png",
-        mime="image/png",
-    )
+        st.dataframe(relatorio_detalhado_df,hide_index=True)
+
+        img_bytes = df_to_image_bytes(relatorio_detalhado_df,title=titulo_da_tabela)
+
+        st.download_button(
+            label="Baixar tabela",
+            data=img_bytes,
+            file_name="tabela.png",
+            mime="image/png",
+        )
 
     st.caption("Link para edição no Google Sheets: https://docs.google.com/spreadsheets/d/133kYKvfehQQeJTQ86Z2IM3SmgIBNmd0ZQfhvPFgqFGY/")
 
@@ -101,7 +108,7 @@ if autenticado:
     data_aula = col1.date_input("Data da atividade:", value=date.today())
     quantidade_horas = col2.number_input("Quantidade de horas:", step=0.5)
 
-    botao_adicionar_horas = col1.button("Adicionar horas",type="primary")
+    botao_adicionar_horas = st.button("Adicionar horas",type="primary")
     visualizar_aluno = st.button("Visualizar horas do aluno",type="secondary")
 
     if botao_adicionar_horas:
