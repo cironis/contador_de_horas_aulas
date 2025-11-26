@@ -5,10 +5,11 @@ from auxiliar.google_sheets import get_sheet_data,set_sheet_data
 password = st.secrets["PASSWORD"]
 password_parametro = st.query_params.get("password",None)
 
+if "autenticado" not in st.session_state:
+    st.session_state["autenticado"] = False
+
 if password == password_parametro:
     st.session_state["autenticado"] = True
-else:
-    st.session_state["autenticado"] = False
 
 autenticado = st.session_state["autenticado"]
 

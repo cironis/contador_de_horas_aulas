@@ -6,10 +6,11 @@ from auxiliar.google_sheets import get_sheet_data,append_sheet_data
 password = st.secrets["PASSWORD"]
 password_parametro = st.query_params.get("password",None)
 
+if "autenticado" not in st.session_state:
+    st.session_state["autenticado"] = False
+
 if password == password_parametro:
     st.session_state["autenticado"] = True
-else:
-    st.session_state["autenticado"] = False
 
 autenticado = st.session_state["autenticado"] 
 
@@ -49,7 +50,7 @@ def visualizar_horas_aluno(aluno: str):
     st.subheader("Detalhamento das horas:")
     colunas = ["data_da_aula","quantidade_de_horas"]
     st.dataframe(horas_aluno[colunas],hide_index=True)
-    st.caption("Link para o Google Sheets: https://docs.google.com/spreadsheets/d/133kYKvfehQQeJTQ86Z2IM3SmgIBNmd0ZQfhvPFgqFGY/")
+    st.caption("Link para edição no Google Sheets: https://docs.google.com/spreadsheets/d/133kYKvfehQQeJTQ86Z2IM3SmgIBNmd0ZQfhvPFgqFGY/")
 
 professor_parametro = st.query_params.get("professor",None)
 
