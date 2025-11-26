@@ -17,7 +17,7 @@ aluno_page = st.Page(
 )
 
 total_page = st.Page(
-    "views\total_de_dinheiro.py",
+    "views/total_de_dinheiro.py",
     title="Total de Dinheiro",
     icon=":material/money:",
 )
