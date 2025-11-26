@@ -15,13 +15,19 @@ aluno_page = st.Page(
     title="Adicionar Alunos",
     icon=":material/thumb_up:",
 )
+
+total_page = st.Page(
+    "views\total_de_dinheiro.py",
+    title="Total de Dinheiro",
+    icon=":material/money:",
+)
 # --- NAVIGATION SETUP [WITHOUT SECTIONS] ---
 # pg = st.navigation(pages=[about_page, project_1_page, project_2_page])
 
 # --- NAVIGATION SETUP [WITH SECTIONS]---
 pg = st.navigation(
     {
-        "Controle de horas": [horas_page],
+        "Controle de horas": [horas_page,total_page],
         "Configurações": [aluno_page],
     }
 )
