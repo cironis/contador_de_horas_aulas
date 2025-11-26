@@ -25,7 +25,7 @@ def visualizar_horas_aluno(aluno: str):
     horas_aluno = horas_df.loc[horas_df["aluno"] == aluno]
         
     st.subheader(f"Horas do aluno {aluno}:")
-    col1,col2,col3= st.columns(3)
+    
 
     seletor_periodo = st.date_input("Selecione o período:", value=(date.today().replace(day=1),date.today()))
     data_inicio, data_fim = seletor_periodo
@@ -45,6 +45,7 @@ def visualizar_horas_aluno(aluno: str):
 
     valor_total = total_horas * valor_aluno
     
+    col1,col2,col3= st.columns(3)
     col1.metric("Total de horas no período:", f"{total_horas} horas")
     col2.metric("Valor total no período:", f"R$ {valor_total:.2f}")
     col3.metric("Valor da hora-aula:", f"R$ {valor_aluno:.2f}")
