@@ -44,11 +44,11 @@ if autenticado:
     total_geral_horas = resumo_professor["quantidade_de_horas"].sum()
     total_geral_valor = resumo_professor["valor_total"].sum()
 
-    resumo_professor = resumo_professor.concat(pd.dataFrame({
-                            "professor": "Total Geral",
-                            "quantidade_de_horas": total_geral_horas,
-                            "valor_total": total_geral_valor
-                        }))
+    resumo_professor.loc[len(resumo_professor)] = [
+    "Total Geral",
+    total_geral_horas,
+    total_geral_valor,
+    ]
 
     st.dataframe(
         resumo_professor,
