@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from io import BytesIO
 
-def df_to_image_bytes(df: pd.DataFrame, title: Optional[str] = None) -> BytesIO:
+def df_to_image_bytes(df: pd.DataFrame, title: str = None) -> BytesIO:
     """Converte um DataFrame em PNG e retorna os bytes em um buffer.
     
     Parâmetros
