@@ -36,8 +36,9 @@ if autenticado:
     filtro_periodo = (merged_df["data_da_aula"] >= data_inicio.strftime("%Y-%m-%d")) & (merged_df["data_da_aula"] <= data_fim.strftime("%Y-%m-%d"))
     merged_df = merged_df.loc[filtro_periodo]
     merged_df["valor_total"] = merged_df["quantidade_de_horas"].astype(float) * merged_df["hora_aula"].astype(float)
-    resumo_professor = merged_df.groupby("professor")["valor_total"].sum().reset_index()
-    st.dataframe(resumo_professor)
+    resumo_professor = merged_df.groupby("professor")[["quantidade_de_horas","valor_total"]].sum().reset_index()
+
+    st.dataframe(resumo_professor,hide_index=True)
 
 else:
     st.error("Senha incorreta. Acesso negado.")
