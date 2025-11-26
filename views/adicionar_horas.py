@@ -13,9 +13,6 @@ else:
 
 autenticado = st.session_state["autenticado"] 
 
-st.write(password)
-st.write(password_parametro)
-
 if "base_alunos" not in st.session_state:
     st.session_state["base_alunos"] = get_sheet_data("base_alunos")
 
