@@ -32,7 +32,7 @@ if autenticado:
     seletor_periodo = st.date_input("Selecione o período:", value=(date.today().replace(day=1),date.today()))
     data_inicio, data_fim = seletor_periodo
 
-    merged_df = horas_df.merge(alunos_df, on="professor", how="left")
+    merged_df = horas_df.merge(alunos_df, on="aluno", how="left")
 
     st.dataframe(merged_df)
 
