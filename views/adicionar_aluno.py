@@ -5,13 +5,19 @@ from auxiliar.google_sheets import get_sheet_data,set_sheet_data
 password = st.secrets["PASSWORD"]
 password_parametro = st.query_params.get("password",None)
 
+if password == password_parametro:
+    st.session_state["autenticado"] = True
+else:
+    st.session_state["autenticado"] = False
+
+autenticado = st.session_state["autenticado"]
+
 if "base_alunos" not in st.session_state:
     st.session_state["base_alunos"] = get_sheet_data("base_alunos")
 
 alunos_df = st.session_state["base_alunos"]
 
-
-if password == password_parametro:
+if autenticado:
     st.title("Adicionar Alunos")
 
     base_alunos = st.data_editor(

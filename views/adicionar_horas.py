@@ -6,6 +6,13 @@ from auxiliar.google_sheets import get_sheet_data,append_sheet_data
 password = st.secrets["PASSWORD"]
 password_parametro = st.query_params.get("password",None)
 
+if password == password_parametro:
+    st.session_state["autenticado"] = True
+else:
+    st.session_state["autenticado"] = False
+
+autenticado = st.session_state["autenticado"] 
+
 st.write(password)
 st.write(password_parametro)
 
@@ -18,9 +25,7 @@ alunos_df = st.session_state["base_alunos"]
 def visualizar_horas_aluno(aluno: str):
     horas_df = get_sheet_data("base_de_horas")
     horas_aluno = horas_df.loc[horas_df["aluno"] == aluno]
-    
-    colunas = ["data_da_aula","quantidade_de_horas","data_atualizacao"]
-    
+        
     st.subheader(f"Horas do aluno {aluno}:")
     col1,col2,col3 = st.columns(3)
 
@@ -45,7 +50,9 @@ def visualizar_horas_aluno(aluno: str):
     col3.metric("Valor total no período:", f"R$ {valor_total:.2f}")
 
     st.subheader("Detalhamento das horas:")
+    colunas = ["data_da_aula","quantidade_de_horas"]
     st.dataframe(horas_aluno[colunas],hide_index=True)
+    st.help("Link para o Google Sheets: https://docs.google.com/spreadsheets/d/133kYKvfehQQeJTQ86Z2IM3SmgIBNmd0ZQfhvPFgqFGY/")
 
 professor_parametro = st.query_params.get("professor",None)
 
@@ -55,7 +62,7 @@ else:
     index = 0
 
 
-if password == password_parametro:
+if autenticado:
     st.title("Adicionar Horas")
 
     col1,col2,col3 = st.columns(3)
