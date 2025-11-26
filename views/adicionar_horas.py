@@ -6,6 +6,9 @@ from auxiliar.google_sheets import get_sheet_data,append_sheet_data
 password = st.secrets["PASSWORD"]
 password_parametro = st.query_params.get("password",None)
 
+st.write(password)
+st.write(password_parametro)
+
 if "base_alunos" not in st.session_state:
     st.session_state["base_alunos"] = get_sheet_data("base_alunos")
 
