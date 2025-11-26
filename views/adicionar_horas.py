@@ -20,7 +20,7 @@ if "base_alunos" not in st.session_state:
 
 alunos_df = st.session_state["base_alunos"]
 
-@st.dialog("Visualizar Horas do Aluno",width = "medium")
+@st.dialog("Visualizar Horas",width = "medium")
 def visualizar_horas_aluno(aluno: str):
 
     horas_df = get_sheet_data("base_de_horas")
@@ -66,7 +66,7 @@ def visualizar_horas_aluno(aluno: str):
     f"Período: {data_inicio.strftime('%d/%m/%Y')} a {data_fim.strftime('%d/%m/%Y')}\n"
     f"Total de horas: {total_horas} horas"
     )
-    
+
     img_bytes = df_to_image_bytes(relatorio_detalhado_df,title=titulo_da_tabela)
 
     st.download_button(
@@ -102,7 +102,7 @@ if autenticado:
     quantidade_horas = col2.number_input("Quantidade de horas:", step=0.5)
 
     botao_adicionar_horas = col1.button("Adicionar horas")
-    visualizar_aluno = col3.button("Visualizar horas do aluno")
+    visualizar_aluno = st.button("Visualizar horas do aluno",type="secondary")
 
     if botao_adicionar_horas:
         nova_linha = {
