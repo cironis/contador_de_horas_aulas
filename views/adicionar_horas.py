@@ -51,8 +51,14 @@ def visualizar_horas_aluno(aluno: str):
     col3.metric("Valor da hora-aula:", f"R$ {valor_aluno:.2f}")
 
     st.subheader("Detalhamento das horas:")
+    
     colunas = ["data_da_aula","quantidade_de_horas"]
     relatorio_detalhado_df = horas_aluno[colunas]
+    relatorio_detalhado_df = relatorio_detalhado_df.rename(columns={
+        "data_da_aula": "Data da Aula",
+        "quantidade_de_horas": "Quantidade de Horas",
+    })
+
     st.dataframe(relatorio_detalhado_df,hide_index=True)
 
     titulo_da_tabela = f"Aulas para {aluno}\nPeríodo: {data_inicio.strftime('%d/%m/%Y')} a {data_fim.strftime('%d/%m/%Y')}"
