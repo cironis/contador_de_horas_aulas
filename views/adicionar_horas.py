@@ -55,7 +55,7 @@ else:
     index = 0
 
 
-if password == password_parametro[0]:
+if password == password_parametro:
     st.title("Adicionar Horas")
 
     col1,col2,col3 = st.columns(3)

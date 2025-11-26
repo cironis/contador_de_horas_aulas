@@ -11,7 +11,7 @@ if "base_alunos" not in st.session_state:
 alunos_df = st.session_state["base_alunos"]
 
 
-if password == password_parametro[0]:
+if password == password_parametro:
     st.title("Adicionar Alunos")
 
     base_alunos = st.data_editor(
