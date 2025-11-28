@@ -15,5 +15,6 @@ def caixa_de_autenticacao():
     st.warning("Acesso restrito. Por favor, forneça a senha correta na URL para continuar.")
     password = st.text_input("Password",type="password")
     if st.button("login"):
-        autenticar_usuario(password)
-        st.write(st.session_state["autenticado"])
+        password_check = autenticar_usuario(password)
+        if password_check:
+            st.rerun()
