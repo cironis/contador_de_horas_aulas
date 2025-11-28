@@ -13,6 +13,6 @@ def autenticar_usuario(password_correto: str) -> bool:
 
 def caixa_de_autenticacao():
     st.warning("Acesso restrito. Por favor, forneça a senha correta na URL para continuar.")
-    password = st.text("Password")
+    password = st.text_input("Password",type="password")
     if st.button("login"):
         autenticar_usuario(password)
