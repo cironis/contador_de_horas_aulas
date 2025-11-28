@@ -96,7 +96,7 @@ else:
 if autenticado:
     st.title("Adicionar Horas")
 
-    col1,col2,col3 = st.columns(3)
+    col1,col2 = st.columns(2)
 
     professor = col1.selectbox("Selecione o professor:", ["Patricia","Ciro"],index=index)
 
@@ -107,6 +107,7 @@ if autenticado:
 
     data_aula = col1.date_input("Data da atividade:", value=date.today())
     quantidade_horas = col2.number_input("Quantidade de horas:", step=0.5)
+    observacoes = st.text_area("Observações (opcional):")
 
     botao_adicionar_horas = st.button("Adicionar horas",type="primary")
     visualizar_aluno = st.button("Visualizar horas do aluno",type="secondary")
