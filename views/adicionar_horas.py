@@ -2,7 +2,7 @@ import streamlit as st
 from datetime import date
 from auxiliar.google_sheets import get_sheet_data,append_sheet_data
 from auxiliar.download_as_image import df_to_image_bytes
-
+import pandas as pd
 
 password = st.secrets["PASSWORD"]
 password_parametro = st.query_params.get("password",None)
