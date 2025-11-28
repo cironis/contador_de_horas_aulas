@@ -16,3 +16,4 @@ def caixa_de_autenticacao():
     password = st.text_input("Password",type="password")
     if st.button("login"):
         autenticar_usuario(password)
+        st.write(st.session_state["autenticado"])
