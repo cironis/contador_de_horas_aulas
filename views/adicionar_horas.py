@@ -27,8 +27,11 @@ def visualizar_horas_aluno(aluno: str):
     horas_aluno = horas_df.loc[horas_df["aluno"] == aluno]
 
     seletor_periodo = st.date_input("Selecione o período:", value=(date.today().replace(day=1),date.today()))
-    st.write(len(seletor_periodo))
-    data_inicio, data_fim = seletor_periodo
+    if len(seletor_periodo) == 2:
+        data_inicio, data_fim = seletor_periodo
+    else:
+        data_inicio = seletor_periodo[0]
+        data_fim = seletor_periodo[0]
 
     filtro_periodo = (horas_aluno["data_da_aula"] >= data_inicio.strftime("%Y-%m-%d")) & (horas_aluno["data_da_aula"] <= data_fim.strftime("%Y-%m-%d"))
     
