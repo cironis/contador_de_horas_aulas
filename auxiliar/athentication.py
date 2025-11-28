@@ -1,12 +1,12 @@
 import streamlit as st
 
 def autenticar_usuario(password_correto: str) -> bool:
-    password_parametro = st.query_params.get("password", None)
+    password_saved = st.secrets["PASSWORD"]
 
     if "autenticado" not in st.session_state:
         st.session_state["autenticado"] = False
 
-    if password_correto == password_parametro:
+    if password_correto == password_saved:
         st.session_state["autenticado"] = True
 
     return st.session_state["autenticado"]
