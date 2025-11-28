@@ -6,14 +6,14 @@ st.set_page_config(layout="wide")
 horas_page = st.Page(
     "views/adicionar_horas.py",
     title="Adicionar Horas",
-    icon=":material/thumb_up:",
+    icon=":material/punch_clock:",
     default=True,
 )
 
 aluno_page = st.Page(
     "views/adicionar_aluno.py",
     title="Adicionar Alunos",
-    icon=":material/thumb_up:",
+    icon=":material/child_care:",
 )
 
 total_page = st.Page(
@@ -21,6 +21,13 @@ total_page = st.Page(
     title="Total de Dinheiro",
     icon=":material/money:",
 )
+
+editar_horas_page = st.Page(
+    "views/editar_planilha.py",
+    title="Editar Planilha de Horas",
+    icon=":material/warning:",
+)
+
 # --- NAVIGATION SETUP [WITHOUT SECTIONS] ---
 # pg = st.navigation(pages=[about_page, project_1_page, project_2_page])
 
@@ -28,7 +35,7 @@ total_page = st.Page(
 pg = st.navigation(
     {
         "Controle de horas": [horas_page,total_page],
-        "Configurações": [aluno_page],
+        "Configurações": [aluno_page,editar_horas_page],
     }
 )
 

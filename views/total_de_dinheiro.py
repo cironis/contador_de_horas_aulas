@@ -22,6 +22,7 @@ if "base_alunos" not in st.session_state:
 base_alunos = st.session_state["base_alunos"]
 
 alunos_df = st.session_state["base_alunos"]
+
 if "base_de_horas" not in st.session_state:
     st.session_state["base_de_horas"] = get_sheet_data("base_de_horas")
 
