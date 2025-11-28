@@ -20,7 +20,7 @@ if "base_de_horas" not in st.session_state:
 horas_df = st.session_state["base_de_horas"]
 
 if autenticado:
-    st.title("⚠️⚠️⚠️⚠️⚠️Modificar horas registradas⚠️⚠️⚠️⚠️⚠️")
+    st.title("⚠️⚠️Modificar horas registradas⚠️⚠️")
 
     base_horas = st.data_editor(
         horas_df,
@@ -32,6 +32,7 @@ if autenticado:
     if atualizar_botao:
         set_sheet_data("base_de_horas",base_horas)
         st.success("Base atualizada com sucesso!")
+        st.caption("Link para edição no Google Sheets: https://docs.google.com/spreadsheets/d/133kYKvfehQQeJTQ86Z2IM3SmgIBNmd0ZQfhvPFgqFGY/")
         st.balloons()
 else:
     st.error("Senha incorreta. Acesso negado.")
