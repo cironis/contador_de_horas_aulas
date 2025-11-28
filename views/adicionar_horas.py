@@ -60,6 +60,7 @@ def visualizar_horas_aluno(aluno: str):
         "observacoes": "Observações",
     })
 
+    relatorio_detalhado_df["Data da Aula"] = pd.to_datetime(relatorio_detalhado_df["Data da Aula"]).dt.strftime("%d/%m/%Y")
     
     if relatorio_detalhado_df.empty:
         
