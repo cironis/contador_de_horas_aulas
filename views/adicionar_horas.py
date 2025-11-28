@@ -29,7 +29,6 @@ def visualizar_horas_aluno(aluno: str):
     seletor_periodo = st.date_input("Selecione o período:", value=(date.today().replace(day=1),date.today()))
     st.write(len(seletor_periodo))
     data_inicio, data_fim = seletor_periodo
-    if not isinstance(data_inicio, date) or not isinstance(data_fim, date):
 
     filtro_periodo = (horas_aluno["data_da_aula"] >= data_inicio.strftime("%Y-%m-%d")) & (horas_aluno["data_da_aula"] <= data_fim.strftime("%Y-%m-%d"))
     
