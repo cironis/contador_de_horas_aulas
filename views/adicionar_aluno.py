@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from auxiliar.google_sheets import get_sheet_data,set_sheet_data
+from auxiliar.athentication import caixa_de_autenticacao
 
 password = st.secrets["PASSWORD"]
 password_parametro = st.query_params.get("password",None)
@@ -46,3 +47,4 @@ if autenticado:
         st.balloons()
 else:
     st.error("Senha incorreta. Acesso negado.")
+    caixa_de_autenticacao()
