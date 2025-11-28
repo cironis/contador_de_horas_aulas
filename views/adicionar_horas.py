@@ -2,6 +2,7 @@ import streamlit as st
 from datetime import date
 from auxiliar.google_sheets import get_sheet_data,append_sheet_data
 from auxiliar.download_as_image import df_to_image_bytes
+from auxiliar.athentication import caixa_de_autenticacao
 import pandas as pd
 
 password = st.secrets["PASSWORD"]
@@ -137,3 +138,4 @@ if autenticado:
         visualizar_horas_aluno(aluno)
 else:
     st.error("Senha incorreta. Acesso negado.")
+    caixa_de_autenticacao()
