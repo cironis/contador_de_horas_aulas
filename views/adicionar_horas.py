@@ -52,11 +52,12 @@ def visualizar_horas_aluno(aluno: str):
 
     st.subheader("Detalhamento das horas:")
     
-    colunas = ["data_da_aula","quantidade_de_horas"]
+    colunas = ["data_da_aula","quantidade_de_horas","observacoes"]
     relatorio_detalhado_df = horas_aluno[colunas]
     relatorio_detalhado_df = relatorio_detalhado_df.rename(columns={
         "data_da_aula": "Data da Aula",
         "quantidade_de_horas": "Quantidade de Horas",
+        "observacoes": "Observações",
     })
 
     
@@ -107,7 +108,7 @@ if autenticado:
 
     data_aula = col1.date_input("Data da atividade:", value=date.today())
     quantidade_horas = col2.number_input("Quantidade de horas:", step=0.5)
-    observacoes = st.text_area("Observações (opcional):")
+    observacoes = st.text_input("Observações (opcional):")
 
     botao_adicionar_horas = st.button("Adicionar horas",type="primary")
     visualizar_aluno = st.button("Visualizar horas do aluno",type="secondary")
@@ -119,6 +120,7 @@ if autenticado:
             "aluno": aluno,
             "professor": professor,
             "data_atualizacao": date.today().strftime("%Y-%m-%d"),
+            "observacoes": observacoes,
         }
         
         append_sheet_data("base_de_horas", [list(nova_linha.values())])
