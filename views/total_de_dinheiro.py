@@ -63,6 +63,7 @@ if autenticado:
     )
 
     resumo_aluno = merged_df.groupby(["aluno","professor"])[["quantidade_de_horas","valor_total"]].sum().reset_index()
+    resumo_aluno.sort_values(by="professor",inplace=True)
     st.subheader("Resumo por Aluno")
     st.dataframe(
         resumo_aluno,
