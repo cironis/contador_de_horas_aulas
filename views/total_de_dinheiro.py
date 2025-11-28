@@ -50,6 +50,7 @@ if autenticado:
     total_geral_valor,
     ]
 
+    st.subheader("Resumo por Professor")
     st.dataframe(
         resumo_professor,
         hide_index=True,
@@ -61,5 +62,17 @@ if autenticado:
         },
     )
 
+    resumo_aluno = merged_df.groupby(["aluno","professor"])[["quantidade_de_horas","valor_total"]].sum().reset_index()
+    st.subheader("Resumo por Aluno")
+    st.dataframe(
+        resumo_professor,
+        hide_index=True,
+        column_config={
+            "valor_total": st.column_config.NumberColumn(
+                "Valor total",
+                format="R$ %.2f",  # 2 casas decimais com R$
+            ),
+        },
+    )
 else:
     st.error("Senha incorreta. Acesso negado.")
