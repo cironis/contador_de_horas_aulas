@@ -28,12 +28,14 @@ if autenticado:
     )
 
     atualizar_botao = st.button("⚠️Atualizar base⚠️")
-
+    st.caption("Link para edição no Google Sheets: https://docs.google.com/spreadsheets/d/133kYKvfehQQeJTQ86Z2IM3SmgIBNmd0ZQfhvPFgqFGY/")
+    
     if atualizar_botao:
         set_sheet_data("base_de_horas",base_horas)
         st.success("Base atualizada com sucesso!")
-        st.caption("Link para edição no Google Sheets: https://docs.google.com/spreadsheets/d/133kYKvfehQQeJTQ86Z2IM3SmgIBNmd0ZQfhvPFgqFGY/")
         st.balloons()
+
 else:
+
     st.error("Senha incorreta. Acesso negado.")
     caixa_de_autenticacao()
