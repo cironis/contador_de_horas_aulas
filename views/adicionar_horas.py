@@ -84,10 +84,11 @@ def visualizar_horas_aluno(aluno: str):
 
         img_bytes = df_to_image_bytes(relatorio_detalhado_df,title=titulo_da_tabela)
 
+        file_name = f"{aluno} - {data_inicio.strftime('%Y%m%d')}_{data_fim.strftime('%Y%m%d')}.png"
         st.download_button(
             label="Baixar tabela",
             data=img_bytes,
-            file_name="tabela.png",
+            file_name=file_name,
             mime="image/png",
         )
 
