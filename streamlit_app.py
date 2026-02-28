@@ -40,7 +40,7 @@ pg = st.navigation(
 )
 
 # --- SHARED ON ALL PAGES ---
-# st.logo("assets/codingisfun_logo.png")
+st.caption("Version 1.1")
 
 
 # --- RUN NAVIGATION ---
