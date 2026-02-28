@@ -22,7 +22,7 @@ if "base_alunos" not in st.session_state:
 alunos_df = st.session_state["base_alunos"]
 
 @st.dialog("Visualizar Horas",width = "medium")
-def visualizar_horas_aluno(aluno: str):
+def visualizar_horas_aluno(aluno: str,professor: str = None):
 
     horas_df = get_sheet_data("base_de_horas")
     horas_aluno = horas_df.loc[horas_df["aluno"] == aluno]
@@ -81,8 +81,12 @@ def visualizar_horas_aluno(aluno: str):
         )
 
         st.dataframe(relatorio_detalhado_df,hide_index=True)
+        if professor == "Ciro":
+            logo_path = "assets/cartão_ciro.png"
+        else:
+            logo_path = None
 
-        img_bytes = df_to_image_bytes(relatorio_detalhado_df,title=titulo_da_tabela)
+        img_bytes = df_to_image_bytes(relatorio_detalhado_df,title=titulo_da_tabela,logo_path=logo_path)
 
         file_name = f"{aluno} - {data_inicio.strftime('%Y%m%d')}_{data_fim.strftime('%Y%m%d')}.png"
         st.download_button(
@@ -136,7 +140,7 @@ if autenticado:
         st.balloons()
 
     if visualizar_aluno:
-        visualizar_horas_aluno(aluno)
+        visualizar_horas_aluno(aluno,professor)
 else:
     st.error("Senha incorreta. Acesso negado.")
     caixa_de_autenticacao()
