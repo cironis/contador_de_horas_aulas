@@ -78,8 +78,8 @@ def visualizar_horas_aluno(aluno: str,professor: str = None):
         f"Aluno: {aluno}\n"
         f"Período: {data_inicio.strftime('%d/%m/%Y')} a {data_fim.strftime('%d/%m/%Y')}\n"
         f"Total de horas: {total_horas} horas\n"
-        f"Valor total: R$ {valor_total:.2f}"
-        f"Chave Pix: 368.509.398-31"
+        f"Valor total: R$ {valor_total:.2f}\n"
+        f"Chave Pix: 368.509.398-31 (Patricia Miyuki)"
         )
 
         st.dataframe(relatorio_detalhado_df,hide_index=True)
