@@ -57,7 +57,7 @@ def df_to_image_bytes(df: pd.DataFrame, title: str = None, logo_path: str = None
     # --- TÍTULO acima da tabela ---
     if title:
         # Posicionamos o título logo acima do topo da tabela
-        title_y = table_bottom + table_height + 0.04
+        title_y = table_bottom + table_height + 0.02
         fig.text(0.5, title_y, title, ha='center', va='bottom',
                  fontsize=22, fontweight='bold', color='#333333')
 
