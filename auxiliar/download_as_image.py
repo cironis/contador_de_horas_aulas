@@ -12,7 +12,7 @@ def df_to_image_bytes(df: pd.DataFrame, title: str = None, logo_path: str = None
     n_rows, n_cols = df.shape
 
     fig_width = max(10, n_cols * 2.5)
-    fig_height = max(7.5, (n_rows * 0.2) + 6.0)
+    fig_height = max(7.5, (n_rows * 0.2) + 10.0)
 
     fig, ax = plt.subplots(figsize=(fig_width, fig_height))
     ax.axis("off")
