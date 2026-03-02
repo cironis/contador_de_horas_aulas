@@ -40,7 +40,7 @@ pg = st.navigation(
 )
 
 # --- SHARED ON ALL PAGES ---
-st.sidebar.caption("Version 1.1.1")
+st.sidebar.caption("Version 1.1.2")
 
 
 # --- RUN NAVIGATION ---
