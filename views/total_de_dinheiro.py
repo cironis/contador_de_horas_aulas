@@ -77,6 +77,27 @@ if autenticado:
             ),
         },
     )
+
+
+    st.subheader("Detalhe do Aluno")
+
+    aluno_selecionado = st.selectbox("Selecione um aluno:", merged_df["aluno"].unique())
+
+    if aluno_selecionado:
+        detalhe_aluno = horas_df.loc[merged_df["aluno"] == aluno_selecionado]
+        filtro_periodo_aluno = (detalhe_aluno["data_da_aula"] >= data_inicio.strftime("%Y-%m-%d")) & (detalhe_aluno["data_da_aula"] <= data_fim.strftime("%Y-%m-%d"))
+        detalhe_aluno = detalhe_aluno.loc[filtro_periodo_aluno]
+        st.dataframe(
+            detalhe_aluno,
+            hide_index=True,
+            column_config={
+                "valor_total": st.column_config.NumberColumn(
+                    "Valor total",
+                    format="R$ %.2f",  # 2 casas decimais com R$
+                ),
+            },
+        )
+
 else:
     st.error("Senha incorreta. Acesso negado.")
     caixa_de_autenticacao()
