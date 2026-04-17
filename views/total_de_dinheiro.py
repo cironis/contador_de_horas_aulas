@@ -81,19 +81,27 @@ if autenticado:
 
     st.subheader("Detalhe do Aluno")
 
-    aluno_selecionado = st.selectbox("Selecione um aluno:", merged_df["aluno"].unique())
+    aluno_selecionado = st.selectbox("Selecione um aluno:", horas_df["aluno"].dropna().unique())
 
     if aluno_selecionado:
-        detalhe_aluno = horas_df.loc[merged_df["aluno"] == aluno_selecionado]
-        filtro_periodo_aluno = (detalhe_aluno["data_da_aula"] >= data_inicio.strftime("%Y-%m-%d")) & (detalhe_aluno["data_da_aula"] <= data_fim.strftime("%Y-%m-%d"))
+        detalhe_aluno = horas_df.loc[horas_df["aluno"] == aluno_selecionado].copy()
+
+        detalhe_aluno["data_da_aula"] = pd.to_datetime(detalhe_aluno["data_da_aula"])
+
+        filtro_periodo_aluno = (
+            (detalhe_aluno["data_da_aula"] >= pd.to_datetime(data_inicio)) &
+            (detalhe_aluno["data_da_aula"] <= pd.to_datetime(data_fim))
+        )
+
         detalhe_aluno = detalhe_aluno.loc[filtro_periodo_aluno]
+
         st.dataframe(
             detalhe_aluno,
             hide_index=True,
             column_config={
                 "valor_total": st.column_config.NumberColumn(
                     "Valor total",
-                    format="R$ %.2f",  # 2 casas decimais com R$
+                    format="R$ %.2f",
                 ),
             },
         )
