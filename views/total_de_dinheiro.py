@@ -86,19 +86,21 @@ if autenticado:
     if aluno_selecionado:
         detalhe_aluno = horas_df.loc[horas_df["aluno"] == aluno_selecionado].copy()
 
-        detalhe_aluno["data_da_aula"] = pd.to_datetime(detalhe_aluno["data_da_aula"])
-
-        filtro_periodo_aluno = (
-            (detalhe_aluno["data_da_aula"] >= pd.to_datetime(data_inicio)) &
-            (detalhe_aluno["data_da_aula"] <= pd.to_datetime(data_fim))
-        )
-
-        detalhe_aluno = detalhe_aluno.loc[filtro_periodo_aluno]
+        detalhe_aluno["data_da_aula"] = pd.to_datetime(detalhe_aluno["data_da_aula"], errors="coerce")
+        detalhe_aluno["data_atualizacao"] = pd.to_datetime(detalhe_aluno["data_atualizacao"], errors="coerce")
 
         st.dataframe(
             detalhe_aluno,
             hide_index=True,
             column_config={
+                "data_da_aula": st.column_config.DatetimeColumn(
+                    "Data da aula",
+                    format="DD/MM/YYYY",
+                ),
+                "data_atualizacao": st.column_config.DatetimeColumn(
+                    "Data de atualização",
+                    format="DD/MM/YYYY",
+                ),
                 "valor_total": st.column_config.NumberColumn(
                     "Valor total",
                     format="R$ %.2f",
