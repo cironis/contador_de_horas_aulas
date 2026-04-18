@@ -31,8 +31,18 @@ horas_df = st.session_state["base_de_horas"]
 if autenticado:
     st.title("Visualizar total")
 
-    seletor_periodo = st.date_input("Selecione o período:", value=(date.today().replace(day=1),date.today()))
-    data_inicio, data_fim = seletor_periodo
+    seletor_periodo = st.date_input(
+        "Selecione o período:",
+        value=(date.today().replace(day=1), date.today())
+    )
+
+    if isinstance(seletor_periodo, tuple) or isinstance(seletor_periodo, list):
+        if len(seletor_periodo) == 2:
+            data_inicio, data_fim = seletor_periodo
+        elif len(seletor_periodo) == 1:
+            data_inicio = data_fim = seletor_periodo[0]
+    else:
+        data_inicio = data_fim = seletor_periodo
 
     merged_df = horas_df.merge(alunos_df, on="aluno", how="left", suffixes=('','_aluno'))
     filtro_periodo = (merged_df["data_da_aula"] >= data_inicio.strftime("%Y-%m-%d")) & (merged_df["data_da_aula"] <= data_fim.strftime("%Y-%m-%d"))
@@ -81,32 +91,42 @@ if autenticado:
 
     st.subheader("Detalhe do Aluno")
 
-    aluno_selecionado = st.selectbox("Selecione um aluno:", horas_df["aluno"].dropna().unique())
+aluno_selecionado = st.selectbox(
+    "Selecione um aluno:",
+    sorted(horas_df["aluno"].dropna().unique())
+)
 
-    if aluno_selecionado:
-        detalhe_aluno = horas_df.loc[horas_df["aluno"] == aluno_selecionado].copy()
+if aluno_selecionado:
+    detalhe_aluno = horas_df.loc[horas_df["aluno"] == aluno_selecionado].copy()
 
-        detalhe_aluno["data_da_aula"] = pd.to_datetime(detalhe_aluno["data_da_aula"], errors="coerce")
-        detalhe_aluno["data_atualizacao"] = pd.to_datetime(detalhe_aluno["data_atualizacao"], errors="coerce")
+    detalhe_aluno["data_da_aula"] = pd.to_datetime(detalhe_aluno["data_da_aula"], errors="coerce")
+    detalhe_aluno["data_atualizacao"] = pd.to_datetime(detalhe_aluno["data_atualizacao"], errors="coerce")
 
-        st.dataframe(
-            detalhe_aluno,
-            hide_index=True,
-            column_config={
-                "data_da_aula": st.column_config.DatetimeColumn(
-                    "Data da aula",
-                    format="DD/MM/YYYY",
-                ),
-                "data_atualizacao": st.column_config.DatetimeColumn(
-                    "Data de atualização",
-                    format="DD/MM/YYYY",
-                ),
-                "valor_total": st.column_config.NumberColumn(
-                    "Valor total",
-                    format="R$ %.2f",
-                ),
-            },
-        )
+    filtro_periodo_aluno = (
+        (detalhe_aluno["data_da_aula"].dt.date >= data_inicio) &
+        (detalhe_aluno["data_da_aula"].dt.date <= data_fim)
+    )
+
+    detalhe_aluno = detalhe_aluno.loc[filtro_periodo_aluno]
+
+    st.dataframe(
+        detalhe_aluno,
+        hide_index=True,
+        column_config={
+            "data_da_aula": st.column_config.DatetimeColumn(
+                "Data da aula",
+                format="DD/MM/YYYY",
+            ),
+            "data_atualizacao": st.column_config.DatetimeColumn(
+                "Data de atualização",
+                format="DD/MM/YYYY",
+            ),
+            "valor_total": st.column_config.NumberColumn(
+                "Valor total",
+                format="R$ %.2f",
+            ),
+        },
+    )
 
 else:
     st.error("Senha incorreta. Acesso negado.")
