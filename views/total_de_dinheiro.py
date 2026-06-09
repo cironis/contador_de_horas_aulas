@@ -85,10 +85,8 @@ def gerar_zip_tabelas_alunos(
 
             titulo_da_tabela = (
                 f"Aluno: {aluno}\n"
-                f"Professor: {professor}\n"
                 f"Período: {data_inicio.strftime('%d/%m/%Y')} a {data_fim.strftime('%d/%m/%Y')}\n"
                 f"Total de horas: {total_horas} horas\n"
-                f"Valor da hora-aula: R$ {valor_aluno:.2f}\n"
                 f"Valor total: R$ {valor_total:.2f}\n"
                 f"Chave Pix: 368.509.398-31 (Patricia Miyuki)"
             )
