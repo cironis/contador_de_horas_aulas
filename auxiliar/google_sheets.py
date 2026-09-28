@@ -63,3 +63,17 @@ def set_sheet_data(sheet_name: str, df: pd.DataFrame):
 def append_sheet_data(sheet_name: str, data: list):
     worksheet = sh.worksheet(sheet_name)
     worksheet.append_rows(data, value_input_option='USER_ENTERED')
+
+
+def get_base_alunos() -> pd.DataFrame:
+    """Base de alunos com colunas numéricas já convertidas.
+
+    percentual_recebido: quanto (0 a 100%) do valor cobrado do aluno fica
+    com o professor. Vazio conta como 100%.
+    """
+    df = get_sheet_data("base_alunos")
+    if "percentual_recebido" not in df.columns:
+        df["percentual_recebido"] = 100
+    df["hora_aula"] = pd.to_numeric(df["hora_aula"], errors="coerce")
+    df["percentual_recebido"] = pd.to_numeric(df["percentual_recebido"], errors="coerce").fillna(100)
+    return df

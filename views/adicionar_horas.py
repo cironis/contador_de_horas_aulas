@@ -1,23 +1,11 @@
 import streamlit as st
 from datetime import date
-from auxiliar.google_sheets import get_sheet_data,append_sheet_data
+from auxiliar.google_sheets import get_sheet_data,get_base_alunos,append_sheet_data
 from auxiliar.download_as_image import df_to_image_bytes
-from auxiliar.athentication import caixa_de_autenticacao
 import pandas as pd
 
-password = st.secrets["PASSWORD"]
-password_parametro = st.query_params.get("password",None)
-
-if "autenticado" not in st.session_state:
-    st.session_state["autenticado"] = False
-
-if password == password_parametro:
-    st.session_state["autenticado"] = True
-
-autenticado = st.session_state["autenticado"] 
-
 if "base_alunos" not in st.session_state:
-    st.session_state["base_alunos"] = get_sheet_data("base_alunos")
+    st.session_state["base_alunos"] = get_base_alunos()
 
 alunos_df = st.session_state["base_alunos"]
 
@@ -55,6 +43,11 @@ def visualizar_horas_aluno(aluno: str,professor: str = None):
     col1.metric("Total de horas no período:", f"{total_horas} horas")
     col2.metric("Valor total no período:", f"R$ {valor_total:.2f}")
     col3.metric("Valor da hora-aula:", f"R$ {valor_aluno:.2f}")
+
+    percentual_recebido = float(alunos_df.loc[alunos_df["aluno"] == aluno, "percentual_recebido"].values[0])
+    if percentual_recebido < 100:
+        valor_recebido = valor_total * percentual_recebido / 100
+        st.caption(f"Valor recebido ({percentual_recebido:g}% do valor cobrado): R$ {valor_recebido:.2f}")
 
     st.subheader("Detalhamento das horas:")
     
@@ -108,41 +101,37 @@ else:
     index = 0
 
 
-if autenticado:
-    st.title("Adicionar Horas")
+st.title("Adicionar Horas")
 
-    col1,col2 = st.columns(2)
+col1,col2 = st.columns(2)
 
-    professor = col1.selectbox("Selecione o professor:", ["Patricia","Ciro"],index=index)
+professor = col1.selectbox("Selecione o professor:", ["Patricia","Ciro"],index=index)
 
-    alunos_filtrados = alunos_df.loc[alunos_df["professor"] == professor]
-    alunos = alunos_filtrados["aluno"].tolist()
+alunos_filtrados = alunos_df.loc[alunos_df["professor"] == professor]
+alunos = alunos_filtrados["aluno"].tolist()
 
-    aluno = col2.selectbox("Selecione o aluno:", alunos)
+aluno = col2.selectbox("Selecione o aluno:", alunos)
 
-    data_aula = col1.date_input("Data da atividade:", value=date.today())
-    quantidade_horas = col2.number_input("Quantidade de horas:", step=0.5)
-    observacoes = st.text_input("Observações (opcional):")
+data_aula = col1.date_input("Data da atividade:", value=date.today())
+quantidade_horas = col2.number_input("Quantidade de horas:", step=0.5)
+observacoes = st.text_input("Observações (opcional):")
 
-    botao_adicionar_horas = st.button("Adicionar horas",type="primary")
-    visualizar_aluno = st.button("Visualizar horas do aluno",type="secondary")
+botao_adicionar_horas = st.button("Adicionar horas",type="primary")
+visualizar_aluno = st.button("Visualizar horas do aluno",type="secondary")
 
-    if botao_adicionar_horas:
-        nova_linha = {
-            "data_da_aula": data_aula.strftime("%Y-%m-%d"),
-            "quantidade_de_horas": quantidade_horas,
-            "aluno": aluno,
-            "professor": professor,
-            "data_atualizacao": date.today().strftime("%Y-%m-%d"),
-            "observacoes": observacoes,
-        }
-        
-        append_sheet_data("base_de_horas", [list(nova_linha.values())])
-        st.success(f"Foram adicionadas {quantidade_horas} horas para o aluno {aluno} do professor {professor}.")
-        st.balloons()
+if botao_adicionar_horas:
+    nova_linha = {
+        "data_da_aula": data_aula.strftime("%Y-%m-%d"),
+        "quantidade_de_horas": quantidade_horas,
+        "aluno": aluno,
+        "professor": professor,
+        "data_atualizacao": date.today().strftime("%Y-%m-%d"),
+        "observacoes": observacoes,
+    }
+    
+    append_sheet_data("base_de_horas", [list(nova_linha.values())])
+    st.success(f"Foram adicionadas {quantidade_horas} horas para o aluno {aluno} do professor {professor}.")
+    st.balloons()
 
-    if visualizar_aluno:
-        visualizar_horas_aluno(aluno,professor)
-else:
-    st.error("Senha incorreta. Acesso negado.")
-    caixa_de_autenticacao()
+if visualizar_aluno:
+    visualizar_horas_aluno(aluno,professor)

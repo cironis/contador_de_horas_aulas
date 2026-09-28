@@ -1,4 +1,5 @@
 import streamlit as st
+from auxiliar.athentication import esta_autenticado, tela_de_login, botao_sair
 
 st.set_page_config(layout="wide")
 
@@ -28,19 +29,20 @@ editar_horas_page = st.Page(
     icon=":material/warning:",
 )
 
-# --- NAVIGATION SETUP [WITHOUT SECTIONS] ---
-# pg = st.navigation(pages=[about_page, project_1_page, project_2_page])
-
-# --- NAVIGATION SETUP [WITH SECTIONS]---
-pg = st.navigation(
-    {
-        "Controle de horas": [horas_page,total_page],
-        "Configurações": [aluno_page,editar_horas_page],
-    }
-)
+# --- NAVIGATION SETUP ---
+if esta_autenticado():
+    pg = st.navigation(
+        {
+            "Controle de horas": [horas_page,total_page],
+            "Configurações": [aluno_page,editar_horas_page],
+        }
+    )
+    botao_sair()
+else:
+    pg = st.navigation([st.Page(tela_de_login, title="Login", icon=":material/lock:")], position="hidden")
 
 # --- SHARED ON ALL PAGES ---
-st.sidebar.caption("Version 1.1.4")
+st.sidebar.caption("Version 1.2.0")
 
 
 # --- RUN NAVIGATION ---
